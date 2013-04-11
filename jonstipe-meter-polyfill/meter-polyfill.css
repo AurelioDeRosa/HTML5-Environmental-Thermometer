@@ -1,0 +1,12 @@
+meter div.meter-frame {
+  height: 1em;
+  width: 100%;
+  border: 1px solid #000000;
+  background-color: #FFFFFF;
+}
+
+meter div.meter-bar {
+  height: 1em;
+  border: none;
+  background-color: #B1241B;
+}

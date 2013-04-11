@@ -1,0 +1,65 @@
+/*
+ * LICENSE: HTML5 environmental thermometer is dual licensed under
+ * the MIT license and GPL-3.0 license. More details can be found here
+ * http://www.opensource.org/licenses/MIT and
+ * here http://opensource.org/licenses/GPL-3.0
+ *
+ * @author  Aurelio De Rosa <aurelioderosa@gmail.com>
+ * @link    https://github.com/AurelioDeRosa/HTML5-Environmental-Thermometer
+ * @version 1.0
+ */
+
+#thermometer-wrapper
+{
+   background-image: url('background.svg');
+   background-repeat: no-repeat;
+   position: relative;
+   height: 300px;
+   width: 75px;
+   float: left;
+   margin: 0em 1em 1em 0em;
+   -ms-background-size: cover;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+}
+
+#thermometer
+{
+   position: absolute;
+   transform: rotate(-90deg);
+   -ms-transform: rotate(-90deg);
+   -webkit-transform: rotate(-90deg);
+   -o-transform: rotate(-90deg);
+   -moz-transform: rotate(-90deg);
+}
+
+#labels
+{
+   text-align: right;
+}
+
+.thermometer-label
+{
+   display: block;
+   line-height: 1;
+}
+
+#request
+{
+   clear: both;
+   margin-top: 1em;
+}
+
+#city,
+#temperature
+{
+   font-weight: bold;
+}
+
+#error
+{
+   color: red;
+   display: block;
+}
