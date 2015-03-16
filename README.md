@@ -5,7 +5,7 @@ This repository contains the demo I've developed as a part of an article titled 
 
 This demo uses a semantic and as more as possible detailed HTML5 markup and both CSS3 and JavaScript for styling and positioning the thermometer in order to look like a real environmental thermometer. Since it uses an SVG background image, it can be adapted to different sizes without being stretched. However, in the folder there's also a PNG background image to support the older browsers which don't support SVG. 
 
-The most interesting part of this demo regards the positioning of the thermometer and its labels. Infact, since the thermometer is 90° rotated, CSS3 is not sufficient to center it and JavaScript has to be used. Moreover the latter has been used to set the number of labels dinamically and to evenly space each other.
+The most interesting part of this demo regards the positioning of the thermometer and its labels. In fact, since the thermometer is 90° rotated, CSS3 is not sufficient to center it and JavaScript has to be used. Moreover the latter has been used to set the number of labels dynamically and to evenly space each other.
 
 While for some of these I used just a pinch, to make the thermometer I employ the followings:
 
