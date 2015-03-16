@@ -15,6 +15,10 @@ While for some of these I used just a pinch, to make the thermometer I employ th
 * Google Maps API to convert the geolocation into an address
 * Yahoo! Weather API to retrieve the WOEID code and the temperature
 
+## Demo
+
+A live demo is available [here](http://aurelio.audero.it/demo/HTML5-Environmental-Thermometer/index.html).
+
 ## License
 
 [HTML5 Environmental Thermometer](https://github.com/AurelioDeRosa/HTML5-Environmental-Thermometer) is dual licensed under [MIT](http://www.opensource.org/licenses/MIT) and [GPL-3.0](http://opensource.org/licenses/GPL-3.0)
