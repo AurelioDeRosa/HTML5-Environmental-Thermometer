@@ -9,35 +9,44 @@
  * @version 1.0
  */
 
+*,
+:after,
+:before
+{
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+body
+{
+   max-width: 500px;
+   margin: 30px auto;
+}
+
 #thermometer-wrapper
 {
-   background-image: url('background.svg');
-   background-repeat: no-repeat;
+   background: url('background.svg') no-repeat;
    position: relative;
-   height: 300px;
-   width: 75px;
+   height: 360px;
+   width: 90px;
    float: left;
-   margin: 0em 1em 1em 0em;
-   -ms-background-size: cover;
+   margin: 0 1em 1em;
    -webkit-background-size: cover;
-   -moz-background-size: cover;
-   -o-background-size: cover;
    background-size: cover;
 }
 
 #thermometer
 {
    position: absolute;
-   transform: rotate(-90deg);
    -ms-transform: rotate(-90deg);
    -webkit-transform: rotate(-90deg);
-   -o-transform: rotate(-90deg);
-   -moz-transform: rotate(-90deg);
+   transform: rotate(-90deg);
 }
 
 #labels
 {
    text-align: right;
+   font-size: 14px;
 }
 
 .thermometer-label

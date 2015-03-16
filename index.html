@@ -1,106 +1,107 @@
 <!DOCTYPE html>
-<!--
-   LICENSE: HTML5 environmental thermometer is dual licensed under
-   the MIT license and GPL-3.0 license. More details can be found here
-   http://www.opensource.org/licenses/MIT and
-   here http://opensource.org/licenses/GPL-3.0
--->
-<html>
+<html lang="en">
    <head>
       <meta charset="UTF-8" />
       <title>HTML5 environmental thermometer - Created by Aurelio De Rosa</title>
-      <link rel="stylesheet" href="style.css" type="text/css" media="all" />
-      <link rel="stylesheet" type="text/css" href="jonstipe-meter-polyfill/meter-polyfill.css" />
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-      <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-      <script type="text/javascript" src="jonstipe-meter-polyfill/meter-polyfill.js"></script>
-      <script src="functions.js"></script>
-      <script type="text/javascript">
-         jQuery(document).ready(
-            function()
-            {
-               // Set the position of the thermometer at runtime
-               setThermometerPosition();
-
-               // When a new request is done, the previous data retrieved
-               // are cleared and then the request to retrieve the WOEID
-               // code (http://developer.yahoo.com/geo/geoplanet/guide/concepts.html)
-               // is run.
-               jQuery('#request').submit(
-                  function()
-                  {
-                     resetInfo();
-                     requestWOEID(jQuery('#location').attr('value'));
-                     jQuery('#city').text(jQuery('#location').attr('value'));
-                     return false;
-                  }
-               );
-
-               // When the user requests to retrieve his own position, a call
-               // to the geolocation API is done. If the function succeeds,
-               // using the function requestLocation, a call to the Google
-               // Maps API is done in order to convert into an address the latitude and
-               // longitude retrieved using geolocation API.
-               jQuery('#my-position').click(
-                  function()
-                  {
-                     resetInfo();
-                     if (! navigator.geolocation)
-                        setError('Your browser does not support geolocation');
-                     else
-                     {
-                        navigator.geolocation.getCurrentPosition(
-                           requestLocation,
-                           function(error)
-                           {
-                              setError('Unable to retrieve location');
-                           },
-                           {
-                              timeout: 10 * 1000, // 10 seconds
-                              maximinAge: 10 * 60 * 1000 // 10 minutes
-                           }
-                        );
-                     }
-
-                     return false;
-                  }
-               );
-            }
-         );
-      </script>
-      <style>
-         body
-         {
-            width: 500px;
-            margin: 30px auto;
-         }
-      </style>
+      <link rel="stylesheet" href="style.css" />
+      <link rel="stylesheet" href="jonstipe-meter-polyfill/meter-polyfill.css" />
    </head>
    <body>
       <!--
-         This div contains the <meter> which is used to show the temperature like a thermometer. It also
-         contains the thermometer labels
+         This div contains the <meter> used to show the temperature.
+         It also contains the thermometer labels
       -->
       <div id="thermometer-wrapper">
          <meter id="thermometer" min="-30" max="50" value="0"></meter>
          <div id="labels"></div>
       </div>
-      <!-- This div contains the text that shows the temperature of choosen location -->
+      <!--
+         This div contains the text that shows the temperature
+         of the chosen or retrieved location
+      -->
       <div id="info">
-         The temperature in
-         <label id="city">-</label>
-         is
+         The temperature in <span id="city">-</span> is
          <output id="temperature" form="request">-</output>
-         <label id="error"></label>
+         <p id="error"></p>
       </div>
-      <!-- The form is used by the user to write the location of which he or she wants to know the temperature -->
-      <form id="request" name="request" action="#">
-         <label>Type the city:</label>
-         <input type="text" id="location" name="location" size="30" placeholder="Frattamaggiore, Italy" required="required"/>
+      <!--
+         This form is used by the user to write the location
+         of which he or she wants to know the temperature
+      -->
+      <form id="request">
+         <label for="location">Type the city:</label>
+         <input type="text" id="location" name="location" size="30" placeholder="Frattamaggiore, Italy" required />
          or
-         <a id="my-position" href="#">Get my position</a>
-         <br />
-         <input type="submit" name="submit" value="Get temperature!" />
+         <button type="button" id="my-position">Retrieve position</button>
+         <br /><br />
+         <input type="submit" value="Get temperature!" />
       </form>
+
+      <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+      <script src="//maps.google.com/maps/api/js?sensor=true"></script>
+      <script src="jonstipe-meter-polyfill/meter-polyfill.min.js"></script>
+      <script src="functions.js"></script>
+      <script>
+         // Creates and initializes a Thermometer object
+         var thermometer = new Thermometer({
+            thermometerId: 'thermometer',
+            labelsId: 'labels',
+            errorId: 'error',
+            cityId: 'city',
+            temperatureId: 'temperature'
+         });
+         var $location = $('#location');
+
+         // When a new request is done, the previous data are
+         // cleared and then the request to retrieve the WOEID code
+         // (http://developer.yahoo.com/geo/geoplanet/guide/concepts.html)
+         // is performed
+         $('#request').submit(function(event) {
+            event.preventDefault();
+
+            thermometer
+               .resetInfo()
+               .requestWOEID($location.val());
+         });
+
+         // When the user requests to retrieve the current position, a call
+         // to the geolocation API is performed. If the function succeeds,
+         // a call to the Google Maps API is made to convert the latitude
+         // and the longitude retrieved using geolocation API into an address
+         $('#my-position').click(function() {
+            thermometer.resetInfo();
+            var $error = $('#error');
+
+            if (!navigator.geolocation) {
+               $error.text('Your browser does not support the geolocation API');
+            } else {
+               navigator.geolocation.getCurrentPosition(
+                  function(position) {
+                     // Performs a request to the Google maps API to retrieve
+                     // an address using the user current location
+                     new google.maps.Geocoder().geocode(
+                        {
+                           location: new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+                        },
+                        function(results, status) {
+                           if (status == google.maps.GeocoderStatus.OK) {
+                              $location.val(results[0].formatted_address);
+                           } else {
+                              $error.text('Unable to retrieve location');
+                           }
+                        }
+                     );
+                  },
+                  function() {
+                     $error.text('Unable to retrieve location');
+                  },
+                  {
+                     timeout: 10 * 1000, // 10 seconds
+                     maximinAge: 10 * 60 * 1000 // 10 minutes
+                  }
+               );
+            }
+         });
+      </script>
    </body>
 </html>
